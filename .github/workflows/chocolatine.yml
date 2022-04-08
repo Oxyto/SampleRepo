@@ -1,8 +1,8 @@
 name: "Chocolatine"
 
 env:
-  MIRROR_URL:
-  EXECUTABLES:
+  MIRROR_URL: ${{ secrets.MIRROR_URL }}
+  EXECUTABLES: ${{ secrets.EXECUTABLES }}
 
 on:
   push:

@@ -50,7 +50,7 @@ jobs:
         run: make clean || (echo "::error::No clean rule in Makefile"; exit 1)
       - name: "Check if the executable exists"
         run: |
-          for exec in $EXECUTABLE
+          for exec in $EXECUTABLES
           do
             if [[ ! -x $exec ]]
             then

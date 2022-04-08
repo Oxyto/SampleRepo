@@ -67,5 +67,6 @@ jobs:
     steps:
       - uses: "action/checkout@v3"
       - name: "Push to mirror"
+        run: echo "Pushing to mirror"
     needs:
       - "check_repository_cleanliness"

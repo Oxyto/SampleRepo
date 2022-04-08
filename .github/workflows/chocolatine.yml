@@ -14,8 +14,7 @@ on:
 
 jobs:
   check_repository_cleanliness:
-    container:
-      image: "epitechcontent/epitest-docker"
+    container: "epitechcontent/epitest-docker"
     steps:
       - uses: "action/checkout@v3"
       - name: "Check repo cleanliness"
@@ -32,8 +31,7 @@ jobs:
           find $(find -type d -name tmp) -type f -name * \
           -exec "::error file={}::Unwanted file detected:"
   check_program_compilation:
-    container:
-      image: "epitechcontent/epitest-docker"
+    container: "epitechcontent/epitest-docker"
     steps:
       - uses: "action/checkout@v3"
       - name: "Check compilation of the program"
@@ -49,8 +47,7 @@ jobs:
     needs:
       - "check_repository_cleanliness"
   run_tests:
-    container:
-      image: "epitechcontent/epitest-docker"
+    container: "epitechcontent/epitest-docker"
     steps:
       - uses: "action/checkout@v3"
       - name: "Run tests"
@@ -62,8 +59,7 @@ jobs:
       - "check_repository_cleanliness"
       - "check_program_compilation"
   push_to_mirror:
-    container:
-      image: "epitechcontent/epitest-docker"
+    container: "epitechcontent/epitest-docker"
     steps:
       - uses: "action/checkout@v3"
       - name: "Push to mirror"

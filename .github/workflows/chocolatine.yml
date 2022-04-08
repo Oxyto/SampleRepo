@@ -17,7 +17,7 @@ jobs:
     runs-on: "ubuntu-latest"
     container: "epitechcontent/epitest-docker"
     steps:
-      - uses: "action/checkout@v3"
+      - uses: "actions/checkout@v3"
       - name: "Check repo cleanliness"
         run: |
           find . -type f -name \#*\# \
@@ -35,7 +35,7 @@ jobs:
     runs-on: "ubuntu-latest"
     container: "epitechcontent/epitest-docker"
     steps:
-      - uses: "action/checkout@v3"
+      - uses: "actions/checkout@v3"
       - name: "Check compilation of the program"
         run: >
           timeout 120 sh -c 'make || echo "::error::Makefile build error"'
@@ -52,7 +52,7 @@ jobs:
     runs-on: "ubuntu-latest"
     container: "epitechcontent/epitest-docker"
     steps:
-      - uses: "action/checkout@v3"
+      - uses: "actions/checkout@v3"
       - name: "Run tests"
         run: >
           timeout 120 sh -c 
@@ -65,7 +65,7 @@ jobs:
     runs-on: "ubuntu-latest"
     container: "epitechcontent/epitest-docker"
     steps:
-      - uses: "action/checkout@v3"
+      - uses: "actions/checkout@v3"
       - name: "Push to mirror"
         run: echo "Pushing to mirror"
     needs:

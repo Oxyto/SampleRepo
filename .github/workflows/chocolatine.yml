@@ -1,8 +1,8 @@
 name: "Chocolatine"
 
 env:
-  MIRROR_URL: ${{ secrets.MIRROR_URL }}
-  EXECUTABLES: ${{ secrets.EXECUTABLES }}
+  MIRROR_URL:
+  EXECUTABLES: "test"
 
 on:
   push:
@@ -50,7 +50,12 @@ jobs:
         run: make clean || (echo "::error::No clean rule in Makefile"; exit 1)
       - name: "Check if the executable exists"
         run: |
-          for exec in $EXECUTABLES
+          if ! $EXECUTABLES
+          then
+            echo "::error::Environment variable EXECUTABLES not defined"
+            exit 1
+          fi
+          for exec in ${EXECUTABLES//,/ }
           do
             if [[ ! -x $exec ]]
             then

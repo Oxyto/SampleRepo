@@ -48,9 +48,15 @@ jobs:
       - name: "Check rule clean for makefile"
         run: make clean || echo "::error::No clean rule in Makefile"
       - name: "Check if the executable exists"
-        run: >
-          test -x $EXECUTABLE ||
-          echo "::error file=$EXECUTABLE::Executable not found"
+        run: |
+          for exec in $EXECUTABLE
+          do
+            if [[ ! -x $exec ]]
+            then
+              echo "::error file=$exec::Executable not found"
+              exit 1
+            fi
+          done
     needs:
       - "check_repository_cleanliness"
   run_tests:

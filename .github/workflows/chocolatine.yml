@@ -29,7 +29,7 @@ jobs:
           find . -name '*.o' -or -name '*.a' -or -name '*.so' -or \
           -name '*.gcno' -or -name '*.gcda' -or -name '*.gcov' \
           -exec echo "::error file={}::Unwanted file detected:" \;
-          find $(find -type d -name tmp) -type f -name * \
+          find $(find -type d -name tmp) -type f -name '*' \
           -exec echo "::error file={}::Unwanted file detected:" \;
   check_program_compilation:
     runs-on: "ubuntu-latest"

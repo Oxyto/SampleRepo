@@ -29,8 +29,12 @@ jobs:
           find . -name '*.o' -or -name '*.a' -or -name '*.so' -or \
           -name '*.gcno' -or -name '*.gcda' -or -name '*.gcov' \
           -exec echo "::error file={}::Unwanted file detected:" \;
-          find $(find . -type d -name tmp) -type f -name '*' \
-          -exec echo "::error file={}::Unwanted file detected:" \;
+          if [[ -d $(find . -type d -name tmp) ]] then
+            find $(find . -type d -name tmp) -type f -name '*' \
+            -exec echo "::error file={}::Unwanted file detected:" \;
+          else
+            echo "::warning::\"tmp\" folder does not exists."
+          fi
   check_program_compilation:
     runs-on: "ubuntu-latest"
     container: "epitechcontent/epitest-docker"

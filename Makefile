@@ -4,7 +4,7 @@
 
 all:
 	cc -c *.c
-	cc -o test *.o
+	cc -o tests *.o
 
 clean:
 	rm -f *.o

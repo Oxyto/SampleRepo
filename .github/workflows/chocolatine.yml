@@ -43,10 +43,11 @@ jobs:
       - uses: "actions/checkout@v3"
       - name: "Check compilation of the program"
         run: >
-          timeout 120 sh -c 'make || echo "::error::Makefile build error"'
-          || echo "::error::Makefile timeout error"
+          timeout 120 sh -c
+          'make || (echo "::error::Makefile build error"; exit 1)'
+          || (echo "::error::Makefile timeout error"; exit 1)
       - name: "Check rule clean for makefile"
-        run: make clean || echo "::error::No clean rule in Makefile"
+        run: make clean || (echo "::error::No clean rule in Makefile"; exit 1)
       - name: "Check if the executable exists"
         run: |
           for exec in $EXECUTABLE
@@ -68,7 +69,7 @@ jobs:
         run: >
           timeout 120 sh -c 
           'make tests_run || echo "::warning:: No tests_run rule"'
-          || echo "::error::Unit tests timeout"
+          || (echo "::error::Unit tests timeout"; exit 1)
     needs:
       - "check_repository_cleanliness"
       - "check_program_compilation"

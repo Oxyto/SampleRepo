@@ -21,16 +21,16 @@ jobs:
       - name: "Check repo cleanliness"
         run: |
           find . -type f -name \#*\# \
-          -exec "::error file={}::Unwanted file detected:"
+          -exec echo "::error file={}::Unwanted file detected:" \;
           find . -type f -name *~ \
-          -exec "::error file={}::Unwanted file detected:"
+          -exec echo "::error file={}::Unwanted file detected:" \;
           find . -type f -iname pain_au_chocolat \
-          -exec "::error file={}::Unwanted file detected:"
+          -exec echo "::error file={}::Unwanted file detected:" \;
           find . -name *.o -or -name *.a -or -name *.so -or -name *.gcno \
           -or -name *.gcda -or -name *.gcov \
-          -exec "::error file={}::Unwanted file detected:"
+          -exec echo "::error file={}::Unwanted file detected:" \;
           find $(find -type d -name tmp) -type f -name * \
-          -exec "::error file={}::Unwanted file detected:"
+          -exec echo "::error file={}::Unwanted file detected:" \;
   check_program_compilation:
     runs-on: "ubuntu-latest"
     container: "epitechcontent/epitest-docker"

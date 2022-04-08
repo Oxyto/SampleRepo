@@ -1,0 +1,71 @@
+name: "Chocolatine"
+
+env:
+  MIRROR_URL:
+  EXECUTABLES:
+
+on:
+  push:
+    - branches-ignore:
+      - "ga-ignore-*"
+  pull_request:
+    - branches-ignore:
+      - "ga-ignore-*"
+
+jobs:
+  check_repository_cleanliness:
+    container:
+      image: "epitechcontent/epitest-docker"
+    steps:
+      - uses: "action/checkout@v3"
+      - name: "Check repo cleanliness"
+        run: |
+          find . -type f -name \#*\# \
+          -exec "::error file={}::Unwanted file detected:"
+          find . -type f -name *~ \
+          -exec "::error file={}::Unwanted file detected:"
+          find . -type f -iname pain_au_chocolat \
+          -exec "::error file={}::Unwanted file detected:"
+          find . -name *.o -or -name *.a -or -name *.so -or -name *.gcno \
+          -or -name *.gcda -or -name *.gcov \
+          -exec "::error file={}::Unwanted file detected:"
+          find $(find -type d -name tmp) -type f -name * \
+          -exec "::error file={}::Unwanted file detected:"
+  check_program_compilation:
+    container:
+      image: "epitechcontent/epitest-docker"
+    steps:
+      - uses: "action/checkout@v3"
+      - name: "Check compilation of the program"
+        run: >
+          timeout 120 sh -c 'make || echo "::error::Makefile build error"'
+          || echo "::error::Makefile timeout error"
+      - name: "Check rule clean for makefile"
+        run: make clean || echo "::error::No clean rule in Makefile"
+      - name: "Check if the executable exists"
+        run: >
+          test -x $EXECUTABLE ||
+          echo "::error file=$EXECUTABLE::Executable not found"
+    needs:
+      - "check_repository_cleanliness"
+  run_tests:
+    container:
+      image: "epitechcontent/epitest-docker"
+    steps:
+      - uses: "action/checkout@v3"
+      - name: "Run tests"
+        run: >
+          timeout 120 sh -c 
+          'make tests_run || echo "::warning:: No tests_run rule"'
+          || echo "::error::Unit tests timeout"
+    needs:
+      - "check_repository_cleanliness"
+      - "check_program_compilation"
+  push_to_mirror:
+    container:
+      image: "epitechcontent/epitest-docker"
+    steps:
+      - uses: "action/checkout@v3"
+      - name: "Push to mirror"
+    needs:
+      - "check_repository_cleanliness"

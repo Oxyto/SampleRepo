@@ -29,7 +29,7 @@ jobs:
           find . -name '*.o' -or -name '*.a' -or -name '*.so' -or \
           -name '*.gcno' -or -name '*.gcda' -or -name '*.gcov' \
           -exec echo "::error file={}::Unwanted file detected:" \;
-          if test -d $(find . -type d -name tmp)
+          if [ $(find . -type d -name tmp) ]
           then
             find $(find . -type d -name tmp) -type f -name '*' \
             -exec echo "::error file={}::Unwanted file detected:" \;

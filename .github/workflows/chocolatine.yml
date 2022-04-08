@@ -50,7 +50,7 @@ jobs:
         run: make clean || (echo "::error::No clean rule in Makefile"; exit 1)
       - name: "Check if the executable exists"
         run: |
-          if ! $EXECUTABLES
+          if [[ ! $EXECUTABLES ]]
           then
             echo "::error::Environment variable EXECUTABLES not defined"
             exit 1
